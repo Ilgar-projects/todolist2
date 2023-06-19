@@ -14,6 +14,7 @@ from distutils.util import strtobool
 
 from pathlib import Path
 from dotenv import load_dotenv
+
 # from core import admin
 
 dotenv_path = '.env'
@@ -35,7 +36,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # DEBUG = os.environ.get('DEBUG') так не работает
 DEBUG = os.environ.get('DEBUG') == 'True'
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'postgres2', '51.250.7.51']
 
 # Application definition
 
@@ -86,7 +87,7 @@ WSGI_APPLICATION = 'todolist.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'postgres',

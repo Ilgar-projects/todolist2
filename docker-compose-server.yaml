@@ -8,12 +8,12 @@ services:
     depends_on:
       - api
   api:
-    image: igorek86/pusik2:version-1
+    image: igorek86/pusik3:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     depends_on:
-      postgres:
-        condition: service_healthy
+      postgres2:
+        condition: "service_healthy"
       migrations:
-        condition: service_healthy
+        condition: "service_completed_successfully"
     volumes:
       - ./.docker_env:/code/default_env
     healthcheck:
@@ -22,27 +22,31 @@ services:
       timeout: 5s
       retries: 5
   migrations:
-    image: igorek86/pusik2:version-1
+    image: igorek86/pusik3:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     depends_on:
-      postgres:
-        condition: service_healthy
+      postgres2:
+        condition: "service_healthy"
     volumes:
       - ./.docker_env:/code/default_env
     healthcheck:
       test: [ "CMD", "pg_isready", "-U", "postgres" ]
-      interval: 10s
+      interval: 30s
       timeout: 5s
       retries: 5
-    command: python manage.py migrate
-  postgres:
+    command: [ "sh", "-c", "sleep 5 && python manage.py migrate" ]
+  postgres2:
     image: postgres:latest
     environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD: $DB_PASSWORD
+      POSTGRES_DB: $DB_NAME
+      POSTGRES_USER: postgres
+      HOST: postgres
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 5s
       timeout: 5s
       retries: 5
+    ports:
+      - "5432:5432"
     volumes:
       - ./postgres-data:/var/lib/postgresql/data

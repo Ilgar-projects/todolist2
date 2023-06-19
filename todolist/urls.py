@@ -28,4 +28,3 @@ urlpatterns = [
     path("", include(router.urls)),
 
 ]
-# path('users/', CustomUserList.as_view(), name='users'),
