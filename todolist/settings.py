@@ -36,7 +36,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # DEBUG = os.environ.get('DEBUG') так не работает
 DEBUG = os.environ.get('DEBUG') == 'True'
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'postgres2', '158.160.55.91']
+ALLOWED_HOSTS = ['51.250.3.209', 'localhost', '127.0.0.1', 'postgres2', '158.160.102.255']
 
 # Application definition
 
@@ -91,7 +91,7 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': 'postgres',
+        'HOST': '158.160.102.255',
         'PORT': '5432',
     }
 }
