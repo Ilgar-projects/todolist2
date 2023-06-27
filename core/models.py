@@ -5,4 +5,3 @@ from django.db import models
 class CustomUser(AbstractUser):
     """Кастомная модель пользователя"""
     pass
-
