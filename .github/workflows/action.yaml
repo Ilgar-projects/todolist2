@@ -46,3 +46,4 @@ jobs:
             cd todolist-app
             docker-compose up
             echo ${{ secrets.SSH_PASSWORD }} | sudo -S docker-compose up -d
+            
