@@ -20,7 +20,7 @@ services:
     healthcheck:
       test: [ "CMD", "pg_isready", "-U", "postgres" ]
       interval: 10s
-      timeout: 30s
+      timeout: 20s
       retries: 5
   migrations:
     build:
@@ -42,7 +42,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
-      HOST: 158.160.106.50
+      HOST: 84.201.132.30
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
