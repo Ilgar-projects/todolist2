@@ -35,13 +35,21 @@ jobs:
           source: "deploy/docker-compose.yaml"
           target: "todolist-app"
           strip_components: 1
-      #- name: run docker-compose
-      #  uses: appleboy/ssh-action@master
-      #  with:
-      #    host: ${{ secrets.HOST }}
-      #    username: ${{ secrets.SSH_USERNAME }}
-      #    password: ${{ secrets.SSH_PASSWORD }}
-      #    script: |
-      #      cd todolist-app
-      #      echo ${{ secrets.SSH_PASSWORD }} | sudo -S docker-compose up -d
-            
+      - name: run docker-compose
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            cd todolist-app
+            docker-compose up -d
+      - name: Cleanup
+        if: always()
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST}}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            docker system prune -a -f
