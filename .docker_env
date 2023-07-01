@@ -1,6 +1,0 @@
-SECRET_KEY='django-insecure-sa)07qx#30opxl_m2mz=ex@)6)*!$@qj$h@i3ldcrbov@+vs+a'
-DEBUG=False
-DB_NAME=diploma
-DB_USER=postgres
-DB_PASSWORD=postgres
-DB_HOST=postgres2
