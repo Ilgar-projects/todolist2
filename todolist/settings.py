@@ -19,7 +19,6 @@ from dotenv import load_dotenv
 load_dotenv()
 AUTH_USER_MODEL = 'core.CustomUser'
 
-DATABASE_URL = os.environ.get('DATABASE_URL')
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -65,8 +64,7 @@ ROOT_URLCONF = 'todolist.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
