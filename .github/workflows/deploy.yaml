@@ -48,7 +48,7 @@ jobs:
         if: always()
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.SSH_HOST}}
+          host: ${{ secrets.HOST}}
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
