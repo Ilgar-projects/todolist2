@@ -13,12 +13,10 @@ import os
 from distutils.util import strtobool
 
 from pathlib import Path
+
 from dotenv import load_dotenv
 
-# from core import admin
-
-dotenv_path = '.env'
-load_dotenv(dotenv_path)
+load_dotenv()
 AUTH_USER_MODEL = 'core.CustomUser'
 
 DATABASE_URL = os.environ.get('DATABASE_URL')
@@ -37,7 +35,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # DEBUG = os.environ.get('DEBUG') так не работает
 DEBUG = os.environ.get('DEBUG') == 'True'
 
-ALLOWED_HOSTS = ['84.201.132.30', 'localhost', '127.0.0.1', 'postgres2']
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
@@ -88,12 +86,12 @@ WSGI_APPLICATION = 'todolist.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': '84.201.132.30',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'HOST': os.environ.get('DB_HOST', default='127.0.0.1'),
+        'PORT': int(os.environ.get('DB_PORT', default='5432')),
     }
 }
 

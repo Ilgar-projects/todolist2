@@ -9,44 +9,36 @@ services:
       - api
   api:
     image: igorek86/pusik3:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+    env_file: .env
     depends_on:
       postgres2:
-        condition: "service_healthy"
+        condition: service_healthy
       migrations:
-        condition: "service_completed_successfully"
+        condition: service_completed_successfully
     volumes:
       - ./.docker_env:/code/default_env
-    healthcheck:
-      test: [ "CMD", "pg_isready", "-U", "postgres" ]
-      interval: 10s
-      timeout: 30s
-      retries: 5
   migrations:
     image: igorek86/pusik3:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+    env_file: .env
     depends_on:
       postgres2:
-        condition: "service_healthy"
+        condition: service_healthy
     volumes:
       - ./.docker_env:/code/default_env
-    healthcheck:
-      test: [ "CMD", "pg_isready", "-U", "postgres" ]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-    command: [ "sh", "-c", "sleep 5 && python manage.py migrate" ]
+    command: python manage.py migrate
   postgres2:
     image: postgres:latest
     environment:
-      POSTGRES_PASSWORD: $DB_PASSWORD
-      POSTGRES_DB: $DB_NAME
-      POSTGRES_USER: postgres
-      HOST: 84.201.132.30
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      HOST: postgres2
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
-      interval: 10s
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
       timeout: 10s
-      retries: 5
+      retries: 10
     ports:
-      - "5432:5432"
+      - "5432"
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
