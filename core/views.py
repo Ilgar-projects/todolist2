@@ -43,7 +43,7 @@ class ProfileView(generics.RetrieveUpdateDestroyAPIView):
         logout(self.request)
 
 
-class UpdatePasswordView(generics.GenericAPIView):
+class UpdatePasswordView(generics.GenericAPIView):  # no?
     serializer_class = UpdatePasswordSerializer
     permission_classes = [permissions.IsAuthenticated]
 
