@@ -4,6 +4,6 @@ from django.db import models
 
 class User(AbstractUser):
     """Кастомная модель пользователя"""
-    #  чтобы поле email было уникальным
+    # чтобы поле email было уникальным
     # email = models.EmailField(unique=True, null=True)
     REQUIRED_FIELDS = []
