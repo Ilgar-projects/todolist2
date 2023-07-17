@@ -31,7 +31,7 @@ class CategoryListView(ListAPIView):
         filters.SearchFilter,
     ]
 
-    # `ordering_fields` - определяет поля, по которым можно сортировать результаты запроса.
+    # `filterset_fields` - определяет поля, по которым можно сортировать результаты запроса.
     ordering_fields = ["title", "created"]
     ordering = ["title"]  # сортировка по дефолту
     search_fields = ["title"]
@@ -128,7 +128,7 @@ class CommentListView(ListAPIView):
     serializer_class = CommentSerializer
     pagination_class = LimitOffsetPagination
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
-    ordering_fields = ["goal"]
+    filterset_fields = ["goal"]
     ordering = ["-created"]
 
     def get_queryset(self):
