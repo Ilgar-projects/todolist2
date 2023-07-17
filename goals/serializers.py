@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from rest_framework.exceptions import NotFound
-from core.models import User
 from core.serializers import ProfileSerializer
 from goals.models import Category, Goal, Comment
 
@@ -35,7 +34,7 @@ class CategorySerializer(CategoryCreateSerializer):
 class GoalCreateSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
-    def validate_category(self, value):
+    def validate_goal(self, value):
         if value.is_deleted:
             raise serializers.ValidationError("not allowed in deleted category")
 
@@ -63,7 +62,7 @@ class GoalSerializer(serializers.ModelSerializer):
 class CommentCreateSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
-    def validate_category(self, value):
+    def validate_comment(self, value):
         if value.is_deleted:
             raise serializers.ValidationError("not allowed in deleted category")
 
@@ -80,6 +79,9 @@ class CommentCreateSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     user = ProfileSerializer(read_only=True)
+
+    # поле с названием цели будет показано, и чтобы его нельзя было редактировать
+    # прописываем это поле только для чтения
     goals = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:

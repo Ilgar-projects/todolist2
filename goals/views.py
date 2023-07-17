@@ -108,7 +108,7 @@ class GoalDetailView(RetrieveUpdateDestroyAPIView):
     # данный метод вернет только записи, которые принадлежат текущему
     # пользователю и не были помечены как удаленные.
     def get_queryset(self):
-        return Goal.objects.select_related('user').filter(user=self.request.user, is_deleted=False)
+        return Goal.objects.select_related('user').filter(category__is_deleted=False)
 
     def perform_destroy(self, instance):
         instance.is_deleted = True
