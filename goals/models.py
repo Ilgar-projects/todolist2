@@ -34,7 +34,7 @@ class Goal(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     status = models.PositiveSmallIntegerField(verbose_name="Статус", choices=Status.choices, default=Status.to_do)
     priority = models.PositiveSmallIntegerField(verbose_name="Приоритет", choices=Priority.choices, default=Priority.medium)
-
+    is_deleted = models.BooleanField(default=False)
     class Meta:
         verbose_name = "Цель"
         verbose_name_plural = "Цели"
