@@ -129,7 +129,7 @@ class CommentListView(ListAPIView):
     pagination_class = LimitOffsetPagination
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ["goal"]
-    ordering = ["-created"]
+    # ordering = ["-created"]
 
     def get_queryset(self):
         return Comment.objects.select_related('user').filter(user=self.request.user)
