@@ -43,7 +43,7 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
             cd todolist-app
-            docker-compose up --build
+            docker-compose up -d
       - name: Cleanup
         if: always()
         uses: appleboy/ssh-action@master
