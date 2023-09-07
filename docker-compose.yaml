@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   front:
-    image: sermalenk/skypro-front:lesson-37
+    image: sermalenk/skypro-front:lesson-38
     ports:
       - "8000:80"
     depends_on:
@@ -45,3 +45,18 @@ services:
       - "5432:5432"
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
+
+  bot:
+    platform: linux/amd64
+    build: .
+    env_file: .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrations:
+        condition: service_completed_successfully
+    environment:
+      DB_HOST: postgres
+    volumes:
+      - ./todolist/bot/:/opt/todolist/bot/
+    command: python3 manage.py runbot
