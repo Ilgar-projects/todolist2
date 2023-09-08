@@ -5,6 +5,9 @@ import requests
 from bot.tg.schemas import GetUpdatesResponse, SendMessageResponse
 from todolist import settings
 
+import logging
+
+logging.basicConfig(filename='bot.log', level=logging.INFO)
 
 class Command(str, Enum):
     GET_UPDATES = 'getUpdates'

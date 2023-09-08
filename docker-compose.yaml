@@ -56,7 +56,7 @@ services:
       migrations:
         condition: service_completed_successfully
     environment:
-      DB_HOST: postgres
+      DB_HOST: postgres2
     volumes:
       - ./todolist/bot/:/opt/todolist/bot/
     command: python manage.py runbot

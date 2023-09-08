@@ -7,6 +7,7 @@ from bot.tg.schemas import Message
 from goals.models import Goal, Category
 
 logger = logging.getLogger(__name__)
+logging.basicConfig(filename='bot.log', level=logging.INFO)
 
 
 class Command(BaseCommand):
@@ -45,7 +46,7 @@ class Command(BaseCommand):
         if tg_user.state == 0:
             if msg.text == '/goals':
                 goals = Goal.objects.filter(category__board__participants__user=tg_user.user,
-                                            category__is_deleted=False,).exclude(status=Goal.Status.archived)
+                                            category__is_deleted=False, ).exclude(status=Goal.Status.archived)
                 self.tg_client.send_message(tg_user.chat_id, f'Ваши цели: {[goal.title for goal in goals]}')
             elif msg.text == '/create':
                 categories = Category.objects.filter(board__participants__user=tg_user.user, is_deleted=False)
@@ -63,9 +64,9 @@ class Command(BaseCommand):
 
     def choice_category(self, tg_user: TgUser, msg):
         if Category.objects.filter(title=msg.text, board__participants__user=tg_user.user,
-                                       is_deleted=False).exists():
+                                   is_deleted=False).exists():
             category = Category.objects.get(title=msg.text, board__participants__user=tg_user.user,
-                                                is_deleted=False)
+                                            is_deleted=False)
             tg_user.category = category
             tg_user.state = 2
             tg_user.save()
