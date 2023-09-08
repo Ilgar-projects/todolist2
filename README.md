@@ -7,4 +7,4 @@
 Как запустить:
 venv\Scripts\activate.ps1 \
 pip install -r requirements.txt \
-python manage.py runserver
+python manage.py runserver.
