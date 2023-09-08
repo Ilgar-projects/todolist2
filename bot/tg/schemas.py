@@ -3,13 +3,11 @@ from pydantic import BaseModel
 
 class Chat(BaseModel):
     id: int
-    username: str | None = None
 
 
 class Message(BaseModel):
-    message_id: int
     chat: Chat
-    text: str
+    text: str | None = None
 
 
 class UpdateObj(BaseModel):
@@ -17,12 +15,11 @@ class UpdateObj(BaseModel):
     message: Message
 
 
-class GetUpdatesResponse(BaseModel):
-    ok: bool
-    result: list[UpdateObj] = []
-
-
-class SendMessageResponse:
+class SendMessageResponse(BaseModel):
     ok: bool
     result: Message
-   
+
+
+class GetUpdatesResponse(BaseModel):
+    ok: bool
+    result: list[UpdateObj]
