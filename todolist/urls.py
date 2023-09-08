@@ -16,6 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
+from rest_framework import routers
+
+router = routers.SimpleRouter()
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -23,4 +27,10 @@ urlpatterns = [
     path("oauth/", include("social_django.urls", namespace="social")),
     path("goals/", include("goals.urls")),
     path("boards/", include("goals.urls")),
+    path("bot/", include("bot.urls")),
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+
 ]
+
+urlpatterns += router.urls
