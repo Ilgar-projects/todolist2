@@ -1,5 +1,6 @@
 name: Build and deploy action
 on: [ push ]
+
 jobs:
   build_and_push:
     runs-on: ubuntu-latest
@@ -12,6 +13,7 @@ jobs:
         run: echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
       - name: docker push
         run: docker push igorek86/pusik3:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+
   deploy:
     runs-on: ubuntu-latest
     needs: build_and_push
@@ -43,6 +45,16 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
             cd todolist-app
+            docker-compose up -d
+      - name: reset and migrate
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            cd todolist-app
+            docker-compose down
             docker-compose up -d
       - name: Cleanup
         if: always()
