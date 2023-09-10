@@ -12,7 +12,7 @@ services:
     image: igorek86/pusik3:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     env_file: .env
     depends_on:
-      postgres2:
+      postgres:
         condition: service_healthy
       migrations:
         condition: service_completed_successfully
@@ -21,11 +21,11 @@ services:
     image: igorek86/pusik3:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     env_file: .env
     depends_on:
-      postgres2:
+      postgres:
         condition: service_healthy
     command: python manage.py migrate
 
-  postgres2:
+  postgres:
     image: postgres:latest
     environment:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
@@ -43,7 +43,7 @@ services:
     image: igorek86/pusik3:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     env_file: .env
     depends_on:
-      postgres2:
+      postgres:
         condition: service_healthy
       migrations:
         condition: service_completed_successfully

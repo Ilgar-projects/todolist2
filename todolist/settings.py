@@ -94,8 +94,8 @@ DATABASES = {
         'NAME': os.environ.get('DB_NAME'),
         'USER': os.environ.get('DB_USER'),
         'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'HOST': os.environ.get('DB_HOST', default='127.0.0.1'),
-        'PORT': int(os.environ.get('DB_PORT', default='5432')),
+        'HOST': os.environ.get('DB_HOST'),
+        'PORT': int(os.environ.get('DB_PORT')),
     }
 }
 
@@ -147,6 +147,9 @@ SOCIAL_AUTH_USER_MODEL = 'core.User'
 SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['email']
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/login-error/'
 
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+
+
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.vk.VKOAuth2',
     'django.contrib.auth.backends.ModelBackend',
@@ -195,13 +198,3 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.vk.VKOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
-SOCIAL_AUTH_URL_NAMESPACE = 'social'
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/logged-in/'
-SOCIAL_AUTH_LOGIN_ERROR_URL = '/login-error/'
-SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['email']
-SOCIAL_AUTH_VK_EXTRA_DATA = [
-    ('email', 'email'),
-]
-SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/logged-in/'
-SOCIAL_AUTH_USER_MODEL = 'core.User'
-SOCIAL_AUTH_RAISE_EXCEPTIONS = False

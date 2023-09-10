@@ -12,9 +12,9 @@ services:
       context: .
     env_file: .env
     environment:
-      DB_HOST: postgres2
+      DB_HOST: postgres
     depends_on:
-      postgres2:
+      postgres:
         condition: service_healthy
       migrations:
         condition: service_completed_successfully
@@ -24,13 +24,13 @@ services:
       context: .
     env_file: .env
     environment:
-      DB_HOST: postgres2
+      DB_HOST: postgres
     depends_on:
-      postgres2:
+      postgres:
         condition: service_healthy
     command: python manage.py migrate
 
-  postgres2:
+  postgres:
     image: postgres:latest
     environment:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
@@ -47,16 +47,13 @@ services:
       - ./postgres-data:/var/lib/postgresql/data
 
   bot:
-    platform: linux/amd64
     build: .
     env_file: .env
     depends_on:
-      postgres2:
+      postgres:
         condition: service_healthy
       migrations:
         condition: service_completed_successfully
-    environment:
-      DB_HOST: postgres2
     volumes:
-      - ./todolist/bot/:/opt/todolist/bot/
+      - ./bot:/app/bot/
     command: python manage.py runbot
