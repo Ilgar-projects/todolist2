@@ -1,15 +1,18 @@
 version: "3.9"
 
 services:
+
   front:
     image: sermalenk/skypro-front:lesson-38
+    restart: on-failure
     ports:
       - "80:80"
     depends_on:
-      - api
+      api:
+        condition: service_started
 
   api:
-    image: igorek86/pusik3:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+    image: igorek86/todolist:latest
     env_file: .env
     depends_on:
       postgres:
@@ -17,30 +20,8 @@ services:
       migrations:
         condition: service_completed_successfully
 
-  migrations:
-    image: igorek86/pusik3:$GITHUB_REF_NAME-$GITHUB_RUN_ID
-    env_file: .env
-    depends_on:
-      postgres:
-        condition: service_healthy
-    command: python manage.py migrate
-
-  postgres:
-    image: postgres:latest
-    environment:
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
-      POSTGRES_USER: ${DB_USER}
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
-      interval: 5s
-      timeout: 10s
-      retries: 10
-    volumes:
-      - ./postgres-data:/var/lib/postgresql/data
-
   bot:
-    image: igorek86/pusik3:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+    image: igorek86/todolist:latest
     env_file: .env
     depends_on:
       postgres:
@@ -48,3 +29,29 @@ services:
       migrations:
         condition: service_completed_successfully
     command: python manage.py runbot
+
+  migrations:
+    image: igorek86/todolist:latest
+    env_file: .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: python manage.py migrate
+
+  postgres:
+    image: postgres:15.4
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    healthcheck:
+      test: pg_isready -U ${DB_USER} -d ${DB_NAME}
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
