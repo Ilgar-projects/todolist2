@@ -52,6 +52,7 @@ jobs:
           source: "deploy/docker-compose.yaml"
           target: "todolist"
           strip_components: 1
+          debug: true
 
       - name: Deploy app
         uses: appleboy/ssh-action@master
