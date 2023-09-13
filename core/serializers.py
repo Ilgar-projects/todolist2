@@ -52,3 +52,4 @@ class UpdatePasswordSerializer(serializers.Serializer):
             raise exceptions.ValidationError('Current password is incorrect')
 
         return old_password
+

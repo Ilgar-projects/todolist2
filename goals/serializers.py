@@ -1,7 +1,6 @@
 from django.core.exceptions import ValidationError, PermissionDenied
 from django.db import transaction
 from rest_framework import serializers
-from rest_framework.exceptions import NotFound
 
 from core.models import User
 from core.serializers import ProfileSerializer

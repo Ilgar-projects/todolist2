@@ -1,8 +1,6 @@
 from django.db import models
 from django.utils import timezone
-
 from core.models import User
-
 
 
 class DatesModelMixin(models.Model):
